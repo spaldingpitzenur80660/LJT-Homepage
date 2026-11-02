@@ -1,6 +1,12 @@
 {% include base_path %}
 
-{% if author.avatar %}
+{% if page.author and site.data.authors[page.author] %}
+  {% assign author = site.data.authors[page.author] %}{% else %}{% assign author = site.author %}
+{% endif %}
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  {% if author.avatar %}
   <div class="author__avatar">
     {% if author.avatar contains "://" %}
     	<img src="{{ author.avatar }}" alt="{{ author.name }}"  fetchpriority="high" />
@@ -8,13 +14,7 @@
     	<img src="{{ author.avatar | prepend: "/images/" | prepend: base_path }}" class="author__avatar" alt="{{ author.name }}"  fetchpriority="high" />
     {% endif %}
   </div>
-{% endif %}
-
-{% if page.author and site.data.authors[page.author] %}
-  {% assign author = site.data.authors[page.author] %}{% else %}{% assign author = site.author %}
-{% endif %}
-
-<div itemscope itemtype="http://schema.org/Person">
+  {% endif %}
 
   <div class="author__content">
     <h3 class="author__name">{{ author.name }}</h3>
